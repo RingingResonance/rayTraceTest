@@ -1,0 +1,25 @@
+//Scale 0 - 1
+    /** `float length = std::sqrt( vector.x*vector.x + vector.y*vector.y + vector.z*vector.z );` **/
+    float length[3];
+    length[0] = sqrt(v0[0] * v0[0] + v0[1] * v0[1] + v0[2] * v0[2]);
+    length[1] = sqrt(v1[0] * v1[0] + v1[1] * v1[1] + v1[2] * v1[2]);
+    length[2] = sqrt(v2[0] * v2[0] + v2[1] * v2[1] + v2[2] * v2[2]);
+    /** Scale each vector **/
+    float vs0[3];
+    float vs1[3];
+    float vs2[3];
+    int i = 0;
+    while(i<2){
+        vs0[i] = v0[i] * (1 / length[0]);
+        i++;
+    }
+    i = 0;
+    while(i<2){
+        vs1[i] = v1[i] * (1 / length[1]);
+        i++;
+    }
+    i = 0;
+    while(i<2){
+        vs2[i] = v2[i] * (1 / length[2]);
+        i++;
+    }
