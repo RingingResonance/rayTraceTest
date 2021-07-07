@@ -96,34 +96,25 @@ int main()
 }
 
 void getNormalOfPlane(float v0[3], float v1[3], float v2[3]){
-    //Scale 0 - 1
-    /** `float length = std::sqrt( vector.x*vector.x + vector.y*vector.y + vector.z*vector.z );` **/
-    float length[3];
-    length[0] = sqrt(v0[0] * v0[0] + v0[1] * v0[1] + v0[2] * v0[2]);
-    length[1] = sqrt(v1[0] * v1[0] + v1[1] * v1[1] + v1[2] * v1[2]);
-    length[2] = sqrt(v2[0] * v2[0] + v2[1] * v2[1] + v2[2] * v2[2]);
-    /** Scale each vector **/
-    float vs0[3];
-    float vs1[3];
-    float vs2[3];
-
-    for(int i=0;i<3;++i) vs0[i] = v0[i] * (1 / length[0]);
-
-    for(int i=0;i<3;++i)vs1[i] = v1[i] * (1 / length[1]);
-
-    for(int i=0;i<3;++i)vs2[i] = v2[i] * (1 / length[2]);
 
     /** e1 = v1 - v0 and e2 = v2 - v0 **/
     float e1[3];
     float e2[3];
 
-    for(int i=0;i<3;++i)e1[i] = vs1[i] - vs0[i];
-    for(int i=0;i<3;++i)e2[i] = vs2[i] - vs0[i];
+    for(int i=0;i<3;++i)e1[i] = v1[i] - v0[i];
+    for(int i=0;i<3;++i)e2[i] = v2[i] - v0[i];
 
 /** Vector3D out; out.x=a[1]*b[2]-a[2]*b[1]; out.y=a[2]*b[0]-a[0]*b[2]; out.z=a[0]*b[1]-a[1]*b[0]; return out; }` **/
     normalCalc[0] = (e1[1] * e2[2]) - (e1[2] * e2[1]);
     normalCalc[1] = (e1[2] * e2[0]) - (e1[0] * e2[2]);
     normalCalc[2] = (e1[0] * e2[1]) - (e1[1] * e2[0]);
+
+//Scale 0 - 1
+    /** `float length = std::sqrt( vector.x*vector.x + vector.y*vector.y + vector.z*vector.z );` **/
+    float length = 0;
+    length = sqrt((normalCalc[0] * normalCalc[0]) + (normalCalc[1] * normalCalc[1]) + (normalCalc[2] * normalCalc[2]));
+    /** Scale each vector **/
+    for(int i=0;i<3;++i) normalCalc[i] = normalCalc[i] * (1 / length);
 }
 
 //This initializer only accepts triangular faces.
