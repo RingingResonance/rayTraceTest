@@ -14,6 +14,8 @@ using namespace std;
 
 int main()
 {
+    C_mapObjStatic O_mapStuff = C_mapObjStatic(5,5);
+    O_mapStuff.faces[1] = 0;
     return 0;
 }
 
