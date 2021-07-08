@@ -1,0 +1,14 @@
+    /******* Test ********/
+    /*float vt0[] = {0.5,0.2,0.8};
+    float vt1[] = {0.1,0.1,0.3};
+    float vt2[] = {0.7,0.6,0.5};*/
+    float vt0[] = {5,2,8};
+    float vt1[] = {1,1,3};
+    float vt2[] = {7,6,5};
+    /**With this test, The Normal Should Equal X0.66148, Y-0.63272, Z-0.40264 Using someone else's normal web based calc.**/
+    getNormalOfPlane(vt0, vt1, vt2);
+    cout << "Test Normal. \n";
+    cout << "X " << normalCalc[0] << "\n";
+    cout << "Y " << normalCalc[1] << "\n";
+    cout << "Z " << normalCalc[2] << "\n";
+    /******* End Test ********/

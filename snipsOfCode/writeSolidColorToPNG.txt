@@ -1,0 +1,16 @@
+    //initialize
+    int totalPixs = rgbChannelInit (width,height);
+    int initPix = 0;
+    int sceneHeapSize = 0;
+    //draw a solid background color.
+    while (initPix < totalPixs){
+        imagered[initPix] = 123;
+        imagegreen[initPix] = 101;
+        imageblue[initPix] = 235;
+        initPix++;
+    }
+
+
+    //Done rendering, now write it to a file.
+    pngmake(1, width, height);
+    rgbChannelCleanup();

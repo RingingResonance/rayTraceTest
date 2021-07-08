@@ -1,0 +1,7 @@
+unsigned int sceneInit(int totalVerts, int totalFaces){
+    unsigned int heapDataCount = ((totalVerts * 4) + (totalFaces * 4));
+    unsigned int normalsCount = totalFaces * 3;
+    normalsHeap = new float [normalsCount];
+    sceneHeap = new unsigned int [heapDataCount]; //chomp
+    return heapDataCount;
+}
