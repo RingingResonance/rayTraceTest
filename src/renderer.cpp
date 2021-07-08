@@ -18,7 +18,7 @@ int main()
 }
 
 /** Pretty self explanatory. Get the normal vector of a plane with 3 verts **/
-double* getNormalOfPlane(double v0[3], double v1[3], double v2[3]){
+void getNormalOfPlane(double v0[3], double v1[3], double v2[3]){
 
     /** e1 = v1 - v0 and e2 = v2 - v0 **/
     double e1[3];
@@ -39,15 +39,5 @@ double* getNormalOfPlane(double v0[3], double v1[3], double v2[3]){
     length = sqrt((normalVect[0] * normalVect[0]) + (normalVect[1] * normalVect[1]) + (normalVect[2] * normalVect[2]));
     /** Scale each vector **/
     for(int i=0;i<3;++i) normalVect[i] = normalVect[i] * (1 / length);
-    return  normalVect;
-}
-
-//class constructor for C_mapStatic, initialize memory.
-C_mapStatic::C_mapStatic(int faces, int verts)
-{
-    verts = new double [verts];             /** groups of three, 'xyzxyzxyzxyzxyz... etc.' **/
-    normals = new double [faces];           /** each face has a precomputed normal, 'xyzxyzxyzxyzxyz... etc.' **/
-    faces = new int [faces];                /** each face has three verts, '1 2 3 1 4 2 5 2 1... etc' **/
-    numOfFaces = new unsigned int [faces];    /** Total number of faces. **/
-
+    //return  normalVect;
 }
