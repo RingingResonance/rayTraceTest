@@ -14,32 +14,55 @@ using namespace std;
 
 int main()
 {
-    C_mapObjStatic O_mapStuff = C_mapObjStatic(5,5);
-    O_mapStuff.faces[1] = 0;
+    C_3DObj O_mapStuff = C_3DObj(3,1);//create O_mapStuff
+    O_mapStuff.verts[0] = -11;//x
+    O_mapStuff.verts[1] = 11;//y
+    O_mapStuff.verts[2] = -11;//z
+    O_mapStuff.verts[3] = 11;//x
+    O_mapStuff.verts[4] = 11;//y
+    O_mapStuff.verts[5] = -11;//z
+    O_mapStuff.verts[6] = 0;//x
+    O_mapStuff.verts[7] = 11;//y
+    O_mapStuff.verts[8] = 11;//z
+    O_mapStuff.faces[0] = 0;//V1
+    O_mapStuff.faces[1] = 1;//V2
+    O_mapStuff.faces[2] = 2;//V3
+    O_mapStuff.numOfFaces = 1;  //One face for this test.
+    O_mapStuff.normalsCalc();   //Calculate normals.
+    cout << "\n Normals \n" << O_mapStuff.normals[0] << "\n" << O_mapStuff.normals[1] << "\n" << O_mapStuff.normals[2] << "\n";
     return 0;
 }
 
-/** Pretty self explanatory. Get the normal vector of a plane with 3 verts **/
-void getNormalOfPlane(double v0[3], double v1[3], double v2[3]){
+/** Calculate Normals. **/
+void C_3DObj::normalsCalc(void){
+    unsigned int faceIndex = 0;
+    unsigned int vertIndex = 0;
+    double workingVert[3][3];
 
-    /** e1 = v1 - v0 and e2 = v2 - v0 **/
-    double e1[3];
-    double e2[3];
-    double normalVect[3];
+    for(int f=0;f<numOfFaces;++f){
+        for(int i=0;i<3;++i){
+            vertIndex = faces[(faceIndex * 3) + i];
+            for(int n=0;n<3;++n){
+                workingVert[n][i] = verts[(vertIndex * 3) + n];
+            }
+        }
+        /** e1 = v1 - v0 and e2 = v2 - v0 **/
+        double e1[3];
+        double e2[3];
 
-    for(int i=0;i<3;++i)e1[i] = v1[i] - v0[i];
-    for(int i=0;i<3;++i)e2[i] = v2[i] - v0[i];
+        for(int i=0;i<3;++i)e1[i] = workingVert[i][1] - workingVert[i][0];
+        for(int i=0;i<3;++i)e2[i] = workingVert[i][2] - workingVert[i][0];
 
-/** Vector3D out; out.x=a[1]*b[2]-a[2]*b[1]; out.y=a[2]*b[0]-a[0]*b[2]; out.z=a[0]*b[1]-a[1]*b[0]; return out; }` **/
-    normalVect[0] = (e1[1] * e2[2]) - (e1[2] * e2[1]);
-    normalVect[1] = (e1[2] * e2[0]) - (e1[0] * e2[2]);
-    normalVect[2] = (e1[0] * e2[1]) - (e1[1] * e2[0]);
+        /** Vector3D out; out.x=a[1]*b[2]-a[2]*b[1]; out.y=a[2]*b[0]-a[0]*b[2]; out.z=a[0]*b[1]-a[1]*b[0]; return out; }` **/
+        normals[(f*3)+0] = (e1[1] * e2[2]) - (e1[2] * e2[1]);
+        normals[(f*3)+1] = (e1[2] * e2[0]) - (e1[0] * e2[2]);
+        normals[(f*3)+2] = (e1[0] * e2[1]) - (e1[1] * e2[0]);
 
-//Scale 0 - 1
-    /** `float length = std::sqrt( vector.x*vector.x + vector.y*vector.y + vector.z*vector.z );` **/
-    double length = 0;
-    length = sqrt((normalVect[0] * normalVect[0]) + (normalVect[1] * normalVect[1]) + (normalVect[2] * normalVect[2]));
-    /** Scale each vector **/
-    for(int i=0;i<3;++i) normalVect[i] = normalVect[i] * (1 / length);
-    //return  normalVect;
+        //Scale 0 - 1
+        /** `float length = std::sqrt( vector.x*vector.x + vector.y*vector.y + vector.z*vector.z );` **/
+        double length = 0;
+        length = sqrt((normals[(f*3)+0] * normals[(f*3)+0]) + (normals[(f*3)+1] * normals[(f*3)+1]) + (normals[(f*3)+2] * normals[(f*3)+2]));
+        /** Scale each vector **/
+        for(int i=0;i<3;++i) normals[(f*3)+i] = normals[(f*3)+i] * (1 / length);
+    }
 }
