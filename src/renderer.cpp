@@ -15,6 +15,7 @@ using namespace std;
 int main()
 {
     C_3DObj O_mapStuff = C_3DObj(3,1);//create O_mapStuff
+    C_nCalc O_calcultron;   //create a normals calc object.
     O_mapStuff.verts[0] = -11;//x
     O_mapStuff.verts[1] = 11;//y
     O_mapStuff.verts[2] = -11;//z
@@ -28,41 +29,7 @@ int main()
     O_mapStuff.faces[1] = 1;//V2
     O_mapStuff.faces[2] = 2;//V3
     O_mapStuff.numOfFaces = 1;  //One face for this test.
-    O_mapStuff.normalsCalc();   //Calculate normals.
+    O_calcultron.normalsCalc(O_mapStuff, 0);   //Calculate normals of an object.
     cout << "\n Normals \n" << O_mapStuff.normals[0] << "\n" << O_mapStuff.normals[1] << "\n" << O_mapStuff.normals[2] << "\n";
     return 0;
-}
-
-/** Calculate Normals. **/
-void C_3DObj::normalsCalc(void){
-    unsigned int faceIndex = 0;
-    unsigned int vertIndex = 0;
-    double workingVert[3][3];
-
-    for(int f=0;f<numOfFaces;++f){
-        for(int i=0;i<3;++i){
-            vertIndex = faces[(faceIndex * 3) + i];
-            for(int n=0;n<3;++n){
-                workingVert[n][i] = verts[(vertIndex * 3) + n];
-            }
-        }
-        /** e1 = v1 - v0 and e2 = v2 - v0 **/
-        double e1[3];
-        double e2[3];
-
-        for(int i=0;i<3;++i)e1[i] = workingVert[i][1] - workingVert[i][0];
-        for(int i=0;i<3;++i)e2[i] = workingVert[i][2] - workingVert[i][0];
-
-        /** Vector3D out; out.x=a[1]*b[2]-a[2]*b[1]; out.y=a[2]*b[0]-a[0]*b[2]; out.z=a[0]*b[1]-a[1]*b[0]; return out; }` **/
-        normals[(f*3)+0] = (e1[1] * e2[2]) - (e1[2] * e2[1]);
-        normals[(f*3)+1] = (e1[2] * e2[0]) - (e1[0] * e2[2]);
-        normals[(f*3)+2] = (e1[0] * e2[1]) - (e1[1] * e2[0]);
-
-        //Scale 0 - 1
-        /** `float length = std::sqrt( vector.x*vector.x + vector.y*vector.y + vector.z*vector.z );` **/
-        double length = 0;
-        length = sqrt((normals[(f*3)+0] * normals[(f*3)+0]) + (normals[(f*3)+1] * normals[(f*3)+1]) + (normals[(f*3)+2] * normals[(f*3)+2]));
-        /** Scale each vector **/
-        for(int i=0;i<3;++i) normals[(f*3)+i] = normals[(f*3)+i] * (1 / length);
-    }
 }
