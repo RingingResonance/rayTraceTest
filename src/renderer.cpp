@@ -14,26 +14,26 @@ using namespace std;
 
 int main()
 {
-    C_3DObj O_mapStuff = C_3DObj(3,1);//create O_mapStuff
+    C_3DObj* O_mapStuff;//create O_mapStuff pinter.
+    O_mapStuff[0] = new C_3DObj(3,1);
     C_nCalc O_calcultron;   //create a normals calc object.
-    O_mapStuff.verts[0] = -11;//x
-    O_mapStuff.verts[1] = 11;//y
-    O_mapStuff.verts[2] = -11;//z
-    O_mapStuff.verts[3] = 11;//x
-    O_mapStuff.verts[4] = 11;//y
-    O_mapStuff.verts[5] = -11;//z
-    O_mapStuff.verts[6] = 0;//x
-    O_mapStuff.verts[7] = 11;//y
-    O_mapStuff.verts[8] = 11;//z
-    O_mapStuff.faces[0] = 0;//V1
-    O_mapStuff.faces[1] = 1;//V2
-    O_mapStuff.faces[2] = 2;//V3
-    O_mapStuff.numOfFaces = 1;  //One face for this test.
-    O_calcultron.normalsCalc(O_mapStuff, 0, 0);   //Calculate normals of an object.
+    O_mapStuff[0].verts[0] = -11;//x
+    O_mapStuff[0].verts[1] = 11;//y
+    O_mapStuff[0].verts[2] = -11;//z
+    O_mapStuff[0].verts[3] = 11;//x
+    O_mapStuff[0].verts[4] = 11;//y
+    O_mapStuff[0].verts[5] = -11;//z
+    O_mapStuff[0].verts[6] = 0;//x
+    O_mapStuff[0].verts[7] = 11;//y
+    O_mapStuff[0].verts[8] = 11;//z
+    O_mapStuff[0].faces[0] = 0;//V1
+    O_mapStuff[0].faces[1] = 1;//V2
+    O_mapStuff[0].faces[2] = 2;//V3
+    O_mapStuff[0].numOfFaces = 1;  //One face for this test.
+    O_calcultron[0].normalsCalc(O_mapStuff, 0, 0);   //Calculate normals of an object.
     cout << "\n Normals \n" << O_mapStuff.normals[0] << "\n" << O_mapStuff.normals[1] << "\n" << O_mapStuff.normals[2] << "\n";
     return 0;
 }
-
 
     /** Calculate Normals. **/
     /** ThreadCount of 0 or 1 means only 1 single thread. **/
@@ -41,7 +41,7 @@ void C_nCalc::normalsCalc(C_3DObj O_objIn, int threadNum, int threadCount){
     unsigned int faceIndex = 0;
     unsigned int vertIndex = 0;
     double workingVert[3][3];
-    int f = threadNum;
+    int f = threadNum;  //Start index at thread number.
 
     /** Process each face with it's own thread unless 'threadNum' == 0 **/
     while(f < O_objIn.numOfFaces){
