@@ -14,16 +14,16 @@ public:
     unsigned int numOfFaces;   /** Total number of faces. **/
     /** Memory constructor **/
     C_3DObj(int vertcnt, int facecnt){
-        verts = new double [vertcnt * 3];
-        normals = new double [facecnt * 3];
-        faces = new unsigned int [facecnt * 3];
+        this -> verts = new double [vertcnt * 3];
+        this -> normals = new double [facecnt * 3];
+        this -> faces = new unsigned int [facecnt * 3];
     }
 };
 
 /** Put the normalsCalc function into a class so we can safely create more than one to support multi-threaded processing. **/
 class C_nCalc{
 public:
-    void normalsCalc(C_3DObj, int, int);
+    void normalsCalc(C_3DObj*, int, int);
 };
 
 /** Class for the camera viewport **/

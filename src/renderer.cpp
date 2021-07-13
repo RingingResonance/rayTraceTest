@@ -30,7 +30,7 @@ int main()
     O_mapStuff[0]->faces[1] = 1;//V2
     O_mapStuff[0]->faces[2] = 2;//V3
     O_mapStuff[0]->numOfFaces = 1;  //One face for this test.
-    O_calcultron.normalsCalc(O_mapStuff, 0, 0);   //Calculate normals of an object.
+    O_calcultron.normalsCalc(O_mapStuff[0], 0, 0);   //Calculate normals of an object.
     cout << "\n Normals \n" << O_mapStuff[0]->normals[0] << "\n" << O_mapStuff[0]->normals[1] << "\n" << O_mapStuff[0]->normals[2] << "\n";
     return 0;
 }
@@ -44,11 +44,11 @@ void C_nCalc::normalsCalc(C_3DObj* O_objIn, int threadNum, int threadCount){
     int f = threadNum;  //Start index at thread number.
 
     /** Process each face with it's own thread unless 'threadNum' == 0 **/
-    while(f < O_objIn[0]->numOfFaces){
+    while(f < O_objIn[0].numOfFaces){
         for(int i=0;i<3;++i){
-            vertIndex = O_objIn[0]->faces[(faceIndex * 3) + i];
+            vertIndex = O_objIn[0].faces[(faceIndex * 3) + i];
             for(int n=0;n<3;++n){
-                workingVert[n][i] = O_objIn[0]->verts[(vertIndex * 3) + n];
+                workingVert[n][i] = O_objIn[0].verts[(vertIndex * 3) + n];
             }
         }
         /** e1 = v1 - v0 and e2 = v2 - v0 **/
@@ -59,16 +59,16 @@ void C_nCalc::normalsCalc(C_3DObj* O_objIn, int threadNum, int threadCount){
         for(int i=0;i<3;++i)e2[i] = workingVert[i][2] - workingVert[i][0];
 
         /** Vector3D out; out.x=a[1]*b[2]-a[2]*b[1]; out.y=a[2]*b[0]-a[0]*b[2]; out.z=a[0]*b[1]-a[1]*b[0]; return out; }` **/
-        O_objIn[0]->normals[(f*3)+0] = (e1[1] * e2[2]) - (e1[2] * e2[1]);
-        O_objIn[0]->normals[(f*3)+1] = (e1[2] * e2[0]) - (e1[0] * e2[2]);
-        O_objIn[0]->normals[(f*3)+2] = (e1[0] * e2[1]) - (e1[1] * e2[0]);
+        O_objIn[0].normals[(f*3)+0] = (e1[1] * e2[2]) - (e1[2] * e2[1]);
+        O_objIn[0].normals[(f*3)+1] = (e1[2] * e2[0]) - (e1[0] * e2[2]);
+        O_objIn[0].normals[(f*3)+2] = (e1[0] * e2[1]) - (e1[1] * e2[0]);
 
         //Scale 0 - 1
         /** `float length = std::sqrt( vector.x*vector.x + vector.y*vector.y + vector.z*vector.z );` **/
         double length = 0;
-        length = sqrt((O_objIn[0]->normals[(f*3)+0] * O_objIn[0]->normals[(f*3)+0]) + (O_objIn[0]->normals[(f*3)+1] * O_objIn[0]->normals[(f*3)+1]) + (O_objIn[0]->normals[(f*3)+2] * O_objIn[0]->normals[(f*3)+2]));
+        length = sqrt((O_objIn[0].normals[(f*3)+0] * O_objIn[0].normals[(f*3)+0]) + (O_objIn[0].normals[(f*3)+1] * O_objIn[0].normals[(f*3)+1]) + (O_objIn[0].normals[(f*3)+2] * O_objIn[0].normals[(f*3)+2]));
         /** Scale each vector **/
-        for(int i=0;i<3;++i) O_objIn[0]->normals[(f*3)+i] = O_objIn[0]->normals[(f*3)+i] * (1 / length);
+        for(int i=0;i<3;++i) O_objIn[0].normals[(f*3)+i] = O_objIn[0].normals[(f*3)+i] * (1 / length);
 
         /** Skip faces that aren't assigned to this thread **/
         if (threadCount == 0)f++;
