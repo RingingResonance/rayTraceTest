@@ -14,9 +14,9 @@ public:
     unsigned int numOfFaces;   /** Total number of faces. **/
     /** Memory constructor **/
     C_3DObj(int vertcnt, int facecnt){
-        this -> verts = new double [vertcnt * 3];
-        this -> normals = new double [facecnt * 3];
-        this -> faces = new unsigned int [facecnt * 3];
+        verts = new double [vertcnt * 3];
+        normals = new double [facecnt * 3];
+        faces = new unsigned int [facecnt * 3];
     }
 };
 
